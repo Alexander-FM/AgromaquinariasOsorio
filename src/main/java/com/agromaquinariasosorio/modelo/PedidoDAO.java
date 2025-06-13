@@ -1,7 +1,6 @@
 package com.agromaquinariasosorio.modelo;
 
 import com.agromaquinariasosorio.config.Conexion;
-import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.util.Date;

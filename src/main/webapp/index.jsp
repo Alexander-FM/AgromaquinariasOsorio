@@ -6,24 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Distribuidora Osorio Agromaquinas</title>
-
     <!-- FUENTE GOOGLE FONTS : Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
-
     <!-- ICONS: Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
-
     <!-- ICONS: Line Awesome -->
     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-
     <!-- Animaciones AOS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
-
-
     <!-- Mis Estilos -->
     <link rel="stylesheet" href="css/estilos_index.css">
     <link rel="stylesheet" href="css/iniciocss.css">
-
   </head>
   <body>
 
@@ -151,14 +144,16 @@
 
             <div class="cart-items" id="cart-items">
               <!-- Productos se agregarán aquí dinámicamente -->
-              <div class="item" data-idProducto="1" data-price="S/. 100,20">
+              <!--<div class="item" data-idProducto="1" data-price="S/. 100,20">
                 <img src="img/atomizadores/atomizadores01.png" alt=""/>
                 <div class="details">
                   <strong>MotosierraJesus</strong><br>
                   <span>S/. 150,20</span>
+                  <br><input type="number" required="" min="1" max="10" id="cantidad" class="custom-number-input">
+                  <div id="advertencia" class="warning">⚠️ Solo puedes ingresar un número del 1 al 10.</div>
                 </div>
                 <button class="remove-item" onclick="removeItem(this)">🗑️</button>
-              </div>
+              </div>-->
             </div>
 
             <!-- NUEVO: Total + Botones -->
@@ -167,35 +162,24 @@
                 <strong>Total a pagar:</strong> S/ <span id="cart-total">0.00</span>
               </div>
               <div class="cart-actions" style="margin-top: 10px;">
-                <a href="cart.html" class="hm-btn btn-primary uppercase" style="width: 100%; display: inline-block; text-align: center;">Comprar Ahora</a>
+                <button id="btn-comprar" class="hm-btn btn-primary uppercase" style="width: 100%; display: inline-block;">Comprar Ahora</button>
               </div>
-
             </div>
           </div>
         </div>
       </div>
-
-
-
-
       <!-- =================================
         FOOTER
      ================================== -->
       <footer>
-
         <div class="container">
-
           <div class="foo-row">
-
             <div class="foo-col">
               <ul>
               </ul>
             </div>
-
           </div>
-
         </div>
-
       </footer>
 
       <div class="foo-copy">
@@ -212,15 +196,8 @@
     <!-- Animaciones : AOS-->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <!-- Mi Script -->
-    <script src="js/inicio.js" type="text/javascript">></script>
-    <script src="js/script_index.js" type="text/javascript">></script>
-    <script>
-
-      AOS.init({
-        duration: 1200
-      });
-
-
-    </script>
+    <!--<script src="js/inicio.js" type="text/javascript">></script>-->
+    <script src="js/script_index.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>

@@ -8,6 +8,10 @@
         <servlet-name>srvProductos</servlet-name>
         <servlet-class>com.agromaquinariasosorio.controlador.srvProductos</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>srvPedido</servlet-name>
+        <servlet-class>com.agromaquinariasosorio.controlador.srvPedido</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>srvCategoria</servlet-name>
         <url-pattern>/srvCategoria</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>srvProductos</servlet-name>
         <url-pattern>/srvProductos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>srvPedido</servlet-name>
+        <url-pattern>/srvPedido</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

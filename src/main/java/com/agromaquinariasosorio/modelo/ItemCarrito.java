@@ -3,7 +3,9 @@ package com.agromaquinariasosorio.modelo;
 import java.math.BigDecimal;
 
 public class ItemCarrito {
-
+  private Producto producto;
+  private int cantidad;
+  
   public ItemCarrito() {
   }
 
@@ -11,9 +13,6 @@ public class ItemCarrito {
     this.producto = producto;
     this.cantidad = cantidad;
   }
-
-  private Producto producto;
-  private int cantidad;
 
   public Producto getProducto() {
     return producto;
