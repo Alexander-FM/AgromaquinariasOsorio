@@ -148,7 +148,7 @@ function guardarPedido() {
           icon: 'success',
           title: 'Mensaje del sistema',
           text: data.msj,
-          timer: 1500,
+          timer: 2500,
           showConfirmButton: false
         }).then(() => {
           window.location.href = 'index.jsp'; // o index.html según tu estructura
@@ -171,7 +171,7 @@ function guardarPedido() {
         icon: 'warning',
         title: 'Mensaje del sistema',
         text: "Ocurrio un error en el servidor",
-        timer: 1500,
+        timer: 2500,
         showConfirmButton: false
       }).then(() => {
         window.location.href = 'index.jsp'; // o index.html según tu estructura
