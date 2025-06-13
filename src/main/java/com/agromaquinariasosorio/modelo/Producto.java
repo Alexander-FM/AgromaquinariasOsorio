@@ -12,6 +12,19 @@ import java.math.BigDecimal;
  */
 public class Producto {
 
+  public Producto() {
+  }
+
+  public Producto(Integer idProducto, Categoria idCategoria, String nombre, String descripcion, BigDecimal precio, Integer stock, String imagen) {
+    this.idProducto = idProducto;
+    this.idCategoria = idCategoria;
+    this.nombre = nombre;
+    this.descripcion = descripcion;
+    this.precio = precio;
+    this.stock = stock;
+    this.imagen = imagen;
+  }
+
   public Integer idProducto;
   public Categoria idCategoria;
   public String nombre;

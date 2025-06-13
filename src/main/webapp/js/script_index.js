@@ -10,8 +10,7 @@ $(document).ready(function () {
     var idCategoria = $(this).data('id'); // Obtener el ID de la categoría
     console.log("Categoría seleccionada:", tipoCategoria, "ID:", idCategoria);
     console.log("Categoría seleccionada:", tipoCategoria);
-    // Aquí llamarías a una función para filtrar tus productos
-    // cargarProductosPorCategoria(tipoCategoria);
+    listarProductosPorIdCategoria(idCategoria);
   });
 });
 
@@ -27,6 +26,71 @@ function listarCategorias() {
       }
       // Insertamos los <li> generados dentro del <ul> con id="categoryTabs"
       $("#categoryTabs").append(tpl); // Usamos append para añadir después del "Todas"
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error("Error al cargar categorías: " + textStatus, errorThrown);
+      // Si tu servlet devuelve un JSON de error con "msj", puedes mostrarlo:
+      try {
+        var errorResponse = JSON.parse(jqXHR.responseText);
+        console.error("Mensaje de error del servidor: " + errorResponse.msj);
+      } catch (e) {
+        console.error("No se pudo parsear el error del servidor.");
+      }
+    }
+  });
+}
+;
+
+function listarProductosPorIdCategoria(idCategoria) {
+  var productGrid = $("#productGrid");
+  var noProductsMessage = $("#noProductsMessage");
+  // Limpiar el contenido actual del grid de productos y ocultar el mensaje
+  productGrid.empty();
+  noProductsMessage.hide();
+  $.ajax({
+    url: "srvProductos?accion=retrieveProductByIdCategoria",
+    type: 'GET',
+    dataType: 'JSON',
+    data: {idCategoria: idCategoria},
+    success: function (data) {
+      if (data.length === 0) {
+        // Si no hay productos, mostrar el mensaje y ocultar el grid
+        noProductsMessage.show();
+        productGrid.hide();
+      } else {
+        // Si hay productos, ocultar el mensaje y mostrar el grid
+        noProductsMessage.hide();
+        productGrid.show();
+        var tpl = "";
+        for (var i = 0; i < data.length; i++) {
+          var producto = data[i];
+          // Formatear el precio a 2 decimales para la visualización
+          // Asegúrate de que el precio venga como un número en el JSON (ej. 1200.30)
+          var precioFormateado = parseFloat(producto.precio).toFixed(2).replace('.', ','); // Cambiar punto por coma para formato español
+
+          tpl += '<div data-id="' + producto.idProducto + '" class="product-item">' +
+                  '<div class="p-portada">' +
+                  '<img src="' + producto.imagen + '" alt="' + producto.nombre + '"/>' +
+                  '</div>' +
+                  '<div class="p-info">' +
+                  '<h3>' + producto.nombre + '</h3>' +
+                  '<div class="precio">' +
+                  '<span>S/. ' + precioFormateado + '</span>' +
+                  '</div>' +
+                  // Datos para el carrito de compras (asegúrate de que coincidan con tus necesidades)
+                  '<a href="#" class="hm-btn btn-primary uppercase add-to-cart"' +
+                  ' data-id="' + producto.idProducto + '"' +
+                  ' data-name="' + producto.nombre + '"' +
+                  ' data-price="' + producto.precio + '"' + // Mantener el precio con punto para lógica interna si es necesario
+                  ' data-img="' + producto.imagen + '">' +
+                  'AGREGAR AL CARRITO' +
+                  '</a>' +
+                  '</div>' +
+                  '</div>';
+        }
+        // Insertar los productos en el grid
+        productGrid.html(tpl);
+      }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       console.error("Error al cargar categorías: " + textStatus, errorThrown);

@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class Conexion {
 
-  private Connection con;
+  protected Connection con; // CAMBIADO DE PRIVATE A PROTECTED
   private boolean transaccionIniciada;
 
   // Cambia estos valores según tu configuración de Oracle XE
@@ -20,16 +20,17 @@ public class Conexion {
     try {
       // Cargar el driver de Oracle
       Class.forName("oracle.jdbc.OracleDriver");
-      con = DriverManager.getConnection(url, user, pass);
+      con = DriverManager.getConnection(url, user, pass); // Asigna a this.con
     } catch (ClassNotFoundException | SQLException e) {
-      e.printStackTrace(); // Manejo de errores
+      // Manejo de errores
+      
     }
     return con;
   }
 
   public void conectar() throws SQLException, ClassNotFoundException {
     Class.forName("oracle.jdbc.OracleDriver");
-    con = DriverManager.getConnection(url, user, pass);
+    con = DriverManager.getConnection(url, user, pass); // Asigna a this.con
   }
 
   public void desconectar() throws SQLException {
@@ -40,7 +41,7 @@ public class Conexion {
 
   protected void conectar(boolean wTransaccion) throws Exception {
     Class.forName("oracle.jdbc.OracleDriver");
-    con = DriverManager.getConnection(url, user, pass);
+    con = DriverManager.getConnection(url, user, pass); // Asigna a this.con
 
     if (wTransaccion) {
       this.con.setAutoCommit(false);
@@ -61,36 +62,47 @@ public class Conexion {
             this.con.rollback();
           }
         } catch (SQLException e) {
-          throw e;
+          throw e; // Relanza la excepción para que el DAO la maneje
         }
       }
       try {
         this.con.close();
       } catch (SQLException e) {
-        e.printStackTrace();
+        // Imprime error si no se puede cerrar la conexión
+        
       }
     }
     this.con = null;
   }
 
   protected void ejecutarOrden(String wSQL) throws Exception {
-    Statement st;
+    Statement st = null; // Declarar aquí para el try-finally
 
     if (this.con != null) {
-      st = this.con.createStatement();
-      st.executeUpdate(wSQL);
+      try {
+        st = this.con.createStatement();
+        st.executeUpdate(wSQL);
+      } finally {
+        if (st != null) {
+          st.close(); // Asegura que el Statement se cierre
+        }
+      }
     }
   }
 
   protected ResultSet ejecutarOrdenDatos(String wSQL) throws Exception {
-    Statement st;
+    Statement st = null;
     ResultSet rs = null;
 
     if (this.con != null) {
-      st = this.con.createStatement();
-      rs = st.executeQuery(wSQL);
+      try {
+        st = this.con.createStatement();
+        rs = st.executeQuery(wSQL);
+      } catch (SQLException e) {
+        // No cerrar 'st' aquí si 'rs' será devuelto y necesita 'st' abierto
+        throw e; // Relanzar la excepción
+      }
     }
-
-    return rs;
+    return rs; // El Statement asociado a este ResultSet debe cerrarse externamente
   }
 }

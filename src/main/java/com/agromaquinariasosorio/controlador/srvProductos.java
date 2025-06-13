@@ -4,13 +4,18 @@
  */
 package com.agromaquinariasosorio.controlador;
 
+import com.agromaquinariasosorio.modelo.Producto;
+import com.agromaquinariasosorio.modelo.ProductoDAO;
 import com.agromaquinariasosorio.utils.AgromaquinariasUtils;
+import com.google.gson.Gson;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.util.List;
 
 /**
  *
@@ -96,8 +101,22 @@ public class srvProductos extends HttpServlet {
     throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
   }
 
-  private void retrieveProductByIdCategoria(HttpServletRequest request, HttpServletResponse response) {
-    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+  private void retrieveProductByIdCategoria(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    if (request.getParameter("idCategoria") != null) {
+      final Integer idCategoria = Integer.valueOf(request.getParameter("idCategoria"));
+      PrintWriter out = response.getWriter();
+      try {
+        ProductoDAO dao = new ProductoDAO();
+        List<Producto> pro = dao.retrieveProductsByIdCategoria(idCategoria);
+        Gson gson = new Gson();
+        String json = gson.toJson(pro);
+        out.print(json);
+      } catch (final Exception e) {
+        AgromaquinariasUtils.printError(e.getMessage(), response);
+      }
+    } else {
+      AgromaquinariasUtils.printMessage("No se tiene el parametro de la categoría", false, response);
+    }
   }
 
 }

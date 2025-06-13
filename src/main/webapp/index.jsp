@@ -129,119 +129,17 @@
             <!-- Se cargará el contenido de las categorias mediante JavaScript -->
           </ul>
 
-          <!-- CONTENIDO DE LOS TABS -->
-          <!-- Cortadoras -->
-          <div class="tabs-content tab-active" data-aos="fade-up">
-            <div class="grid-product">
-              <div data-id="1" class="product-item">
-                <div class="p-portada">
-                  <img src="img/cortadoras/cortadora02.png" alt=""/>
-                </div>
-                <div class="p-info">
-                  <h3>Cortadora Lorenzo</h3>
-                  <div class="precio">
-                    <span>S/. 1200,30</span>
-                  </div>
-                  <a href="#" class="hm-btn btn-primary uppercase add-to-cart"
-                     data-id="1"
-                     data-name="Cortadora Lorenzo"
-                     data-price="1200,30"
-                     data-img="img/cortadoras/cortadora02.png">AGREGAR AL CARRITO</a>
-                </div>
-              </div>
-              <div data-id="1" class="product-item">
-                <div class="p-portada">
-                  <img src="img/cortadoras/cortadora02.png" alt=""/>
-                </div>
-                <div class="p-info">
-                  <h3>Cortadora Lorenzo</h3>
-                  <div class="precio">
-                    <span>S/. 1200,30</span>
-                  </div>
-                  <a href="#" class="hm-btn btn-primary uppercase add-to-cart"
-                     data-id="1"
-                     data-name="Cortadora Lorenzo"
-                     data-price="1200,30"
-                     data-img="img/cortadoras/cortadora02.png">AGREGAR AL CARRITO</a>
-                </div>
-              </div>
-              <div data-id="1" class="product-item">
-                <div class="p-portada">
-                  <img src="img/cortadoras/cortadora02.png" alt=""/>
-                </div>
-                <div class="p-info">
-                  <h3>Cortadora Lorenzo</h3>
-                  <div class="precio">
-                    <span>S/. 1200,30</span>
-                  </div>
-                  <a href="#" class="hm-btn btn-primary uppercase add-to-cart"
-                     data-id="1"
-                     data-name="Cortadora Lorenzo"
-                     data-price="1200,30"
-                     data-img="img/cortadoras/cortadora02.png">AGREGAR AL CARRITO</a>
-                </div>
-              </div>
-                            <div data-id="1" class="product-item">
-                <div class="p-portada">
-                  <img src="img/cortadoras/cortadora02.png" alt=""/>
-                </div>
-                <div class="p-info">
-                  <h3>Cortadora Lorenzo</h3>
-                  <div class="precio">
-                    <span>S/. 1200,30</span>
-                  </div>
-                  <a href="#" class="hm-btn btn-primary uppercase add-to-cart"
-                     data-id="1"
-                     data-name="Cortadora Lorenzo"
-                     data-price="1200,30"
-                     data-img="img/cortadoras/cortadora02.png">AGREGAR AL CARRITO</a>
-                </div>
-              </div>
-                            <div data-id="1" class="product-item">
-                <div class="p-portada">
-                  <img src="img/cortadoras/cortadora02.png" alt=""/>
-                </div>
-                <div class="p-info">
-                  <h3>Cortadora Lorenzo</h3>
-                  <div class="precio">
-                    <span>S/. 1200,30</span>
-                  </div>
-                  <a href="#" class="hm-btn btn-primary uppercase add-to-cart"
-                     data-id="1"
-                     data-name="Cortadora Lorenzo"
-                     data-price="1200,30"
-                     data-img="img/cortadoras/cortadora02.png">AGREGAR AL CARRITO</a>
-                </div>
-              </div>
+          <!-- Contenido Principal de los Productos -->
+          <!-- Este div siempre tendrá la clase 'tab-active' y contendrá el grid de productos o el mensaje -->
+          <div class="tabs-content tab-active" data-aos="fade-up" id="productDisplayArea">
+            <!-- Contenedor donde se insertarán los productos -->
+            <div class="grid-product" id="productGrid">
+              <!-- Los productos se cargarán aquí dinámicamente -->
             </div>
-          </div>
-
-          <!-- Motosierras -->
-          <div class="tabs-content" data-aos="fade-up">
-
-            <div class="grid-product">
-
+            <!-- Mensaje para cuando no hay productos -->
+            <div id="noProductsMessage" style="display: none; text-align: center; padding: 20px; color: #555; font-size: 1.2em;">
+              No hay productos disponibles en esta categoría.
             </div>
-
-          </div>
-
-          <!-- Atomizadores -->
-          <div class="tabs-content" data-aos="fade-up">
-
-            <div class="grid-product">
-
-            </div>
-
-          </div>
-
-          <!-- Hidrolavadora -->
-          <div class="tabs-content" data-aos="fade-up">
-
-            <div class="grid-product">
-
-
-            </div>
-
           </div>
 
           <!-- Carrito Slide -->
@@ -253,6 +151,14 @@
 
             <div class="cart-items" id="cart-items">
               <!-- Productos se agregarán aquí dinámicamente -->
+              <div class="item" data-idProducto="1" data-price="S/. 100,20">
+                <img src="img/atomizadores/atomizadores01.png" alt=""/>
+                <div class="details">
+                  <strong>MotosierraJesus</strong><br>
+                  <span>S/. 150,20</span>
+                </div>
+                <button class="remove-item" onclick="removeItem(this)">🗑️</button>
+              </div>
             </div>
 
             <!-- NUEVO: Total + Botones -->
