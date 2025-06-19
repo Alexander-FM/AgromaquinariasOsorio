@@ -4,8 +4,8 @@
  */
 package com.agromaquinariasosorio.controlador;
 
-import com.agromaquinariasosorio.modelo.Carrito;
-import com.agromaquinariasosorio.modelo.PedidoDAO;
+import com.agromaquinariasosorio.modelo.Usuario;
+import com.agromaquinariasosorio.modelo.UsuarioDAO;
 import com.agromaquinariasosorio.utils.AgromaquinariasUtils;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,13 +14,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 
 /**
  *
  * @author MARY LEONOR
  */
-@WebServlet(name = "srvPedido", urlPatterns = "/srvPedido")
-public class srvPedido extends HttpServlet {
+@WebServlet(name = "srvUsuario", urlPatterns = "/srvUsuario")
+public class srvUsuario extends HttpServlet {
 
   /**
    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,12 +39,10 @@ public class srvPedido extends HttpServlet {
     if (request.getParameter("accion") != null) {
       String accion = request.getParameter("accion");
       switch (accion) {
-        case "retrievePedido" ->
-          this.retrievePedido(response);
-        case "createPedido" ->
-          this.createPedido(request, response);
-        case "retrievePedidoById" ->
-          this.retrievePedidoById(request, response);
+        case "registrarUsuario" ->
+          this.registrarUsuario(request, response);
+        case "iniciarSesion" ->
+          this.iniciarSesion(request, response);
         default ->
           throw new AssertionError();
       }
@@ -91,33 +90,40 @@ public class srvPedido extends HttpServlet {
     return "Short description";
   }// </editor-fold>
 
-  private void retrievePedido(HttpServletResponse response) {
-    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-  }
+  private void registrarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-  private void createPedido(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-    if (request.getParameter("carrito") != null) {
+    if (request.getParameter("usu") != null) {
       final Gson gson = new Gson();
-      final Carrito carrito = gson.fromJson(request.getParameter("carrito"), Carrito.class);
+      final Usuario usu = gson.fromJson(request.getParameter("usu"), Usuario.class);
       try {
-        final PedidoDAO dao = new PedidoDAO();
-        final int idPedido = dao.guardarPedido(carrito);
-        if (idPedido > 0) {
-          AgromaquinariasUtils.printMessage("Pedido registrado exitosamente", true, response);
-          //Implementar metodo para enviar por correo electronico
-        } else {
-          AgromaquinariasUtils.printMessage("Ocurrio un error al registrar el pedido", true, response);
-        }
-      } catch (final Exception e) {
+        UsuarioDAO dao = new UsuarioDAO();
+        dao.registrarUsuario(usu);
+        AgromaquinariasUtils.printMessage("Usuario registrado correctamente", true, response);
+      } catch (Exception e) {
         AgromaquinariasUtils.printMessage(e.getMessage(), false, response);
       }
     } else {
-      AgromaquinariasUtils.printMessage("No llegaron los datos del carrito", false, response);
+      AgromaquinariasUtils.printMessage("Rellene el formulario", false, response);
     }
   }
 
-  private void retrievePedidoById(HttpServletRequest request, HttpServletResponse response) {
-    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+  private void iniciarSesion(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    PrintWriter out = response.getWriter();
+    if (request.getParameter("usu") != null) {
+      Gson gson = new Gson();
+      Usuario usuario = gson.fromJson(request.getParameter("usu"), Usuario.class);
+      try {
+        UsuarioDAO dao = new UsuarioDAO();
+        Usuario usu = dao.verificarUsuario(usuario);
+        String json = gson.toJson(usu);
+        out.print(json);
+      } catch (Exception e) {
+        AgromaquinariasUtils.printError(e.getMessage(), response);
+      }
+    } else {
+      AgromaquinariasUtils.printMessage("Rellene el formulario", false, response);
+    }
+
   }
 
 }

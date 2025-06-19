@@ -60,7 +60,7 @@
                 </a>
               </div>
               <div class="hm-icon-user">
-                <a href="#" id="open-login">
+                <a href="login.jsp" id="open-login">
                   <i class="las la-user"></i>
                   <span id="nombre-usuario" style="margin-left: 8px;">Iniciar Sesión</span>
                 </a>

@@ -5,6 +5,25 @@ $(document).ready(function () {
   });
   listarCategorias();
 
+  document.getElementById('open-login').addEventListener('click', (e) => {
+    e.preventDefault(); // Evita la redirección automática del <a>
+
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+    verifyUser(usuario);
+  });
+
+
+  const usuario = JSON.parse(localStorage.getItem('usuario'));
+  const nombreSpan = document.getElementById('nombre-usuario');
+
+  if (usuario && usuario.nombre) {
+
+    const primerNombre = usuario.nombre.split(' ')[0];
+    nombreSpan.textContent = primerNombre;
+  } else {
+    nombreSpan.textContent = 'Iniciar Sesión';
+  }
+
   // Puedes agregar aquí la lógica para manejar el clic en las pestañas
   // Por ejemplo, para cambiar la clase 'active' y filtrar productos
   $(document).on('click', '.hm-tab-link', function () {
@@ -131,53 +150,58 @@ function renderCart() {
 }
 
 function guardarPedido() {
-  const carrito = {
-    idUsuario: 1, // cambiar según sesión real
-    items: Object.values(cartItems)
-  };
-  $.ajax({
-    url: "srvPedido?accion=createPedido",
-    type: 'POST',
-    dataType: 'json',
-    data: {carrito: JSON.stringify(carrito)},
-    success: function (data) {
-      limpiarCarrito(); // 💥 Limpia el carrito sólo si el pedido fue exitoso
-      document.getElementById('cart-slide').classList.remove('open');
-      if (data.rpt) {
+  const usuario = JSON.parse(localStorage.getItem('usuario'));
+  if (!usuario) {
+    verifyUser(usuario);
+  } else {
+    const carrito = {
+      idUsuario: usuario.idUsuario, // cambiar según sesión real
+      items: Object.values(cartItems)
+    };
+    $.ajax({
+      url: "srvPedido?accion=createPedido",
+      type: 'POST',
+      dataType: 'json',
+      data: {carrito: JSON.stringify(carrito)},
+      success: function (data) {
+        limpiarCarrito(); // 💥 Limpia el carrito sólo si el pedido fue exitoso
+        document.getElementById('cart-slide').classList.remove('open');
+        if (data.rpt) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Mensaje del sistema',
+            text: data.msj,
+            timer: 2500,
+            showConfirmButton: false
+          }).then(() => {
+            window.location.href = 'index.jsp'; // o index.html según tu estructura
+          });
+        } else {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Mensaje del sistema',
+            text: data.msj,
+            timer: 2500,
+            showConfirmButton: false
+          }).then(() => {
+            window.location.href = 'index.jsp'; // o index.html según tu estructura
+          });
+        }
+      },
+      error: function () {
+        alert("Error al enviar el pedido.");
         Swal.fire({
-          icon: 'success',
+          icon: 'warning',
           title: 'Mensaje del sistema',
-          text: data.msj,
+          text: "Ocurrio un error en el servidor",
           timer: 2500,
           showConfirmButton: false
         }).then(() => {
           window.location.href = 'index.jsp'; // o index.html según tu estructura
         });
-      } else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Mensaje del sistema',
-        text: data.msj,
-        timer: 2500,
-        showConfirmButton: false
-      }).then(() => {
-        window.location.href = 'index.jsp'; // o index.html según tu estructura
-      });
       }
-    },
-    error: function () {
-      alert("Error al enviar el pedido.");
-      Swal.fire({
-        icon: 'warning',
-        title: 'Mensaje del sistema',
-        text: "Ocurrio un error en el servidor",
-        timer: 2500,
-        showConfirmButton: false
-      }).then(() => {
-        window.location.href = 'index.jsp'; // o index.html según tu estructura
-      });
-    }
-  });
+    });
+  }
 }
 
 function listarCategorias() {
@@ -293,6 +317,16 @@ function limpiarCarrito() {
 
   // Reiniciar total
   document.getElementById('cart-total').textContent = '0.00';
+}
+
+function verifyUser(usuario) {
+  if (usuario) {
+    // Usuario logueado → ir a detalles de cuenta
+    window.location.href = 'index.jsp';
+  } else {
+    // Sin sesión → ir al login
+    window.location.href = 'login.jsp';
+  }
 }
 
 //const headerMenu = document.querySelector('.hm-header');

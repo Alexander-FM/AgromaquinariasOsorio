@@ -65,3 +65,7 @@ CREATE TABLE Detalle_Pedido (
     CONSTRAINT FK_DETALLE_PEDIDO_PEDIDO FOREIGN KEY (id_pedido) REFERENCES Pedido (id_pedido),
     CONSTRAINT FK_DETALLE_PEDIDO_PRODUCTO FOREIGN KEY (id_producto) REFERENCES Producto (id_producto)
 );
+
+truncate table detalle_pedido;
+truncate table pedido;
+truncate table pago;

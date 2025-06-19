@@ -5,10 +5,10 @@ document.getElementById('open-login').addEventListener('click', (e) => {
 
   if (usuario) {
     // Usuario logueado → ir a detalles de cuenta
-    window.location.href = 'cuenta/cuenta.html';
+    window.location.href = 'index.jsp';
   } else {
     // Sin sesión → ir al login
-    window.location.href = 'login/login.html';
+    window.location.href = 'login.jsp';
   }
 });
 
@@ -16,9 +16,9 @@ document.getElementById('open-login').addEventListener('click', (e) => {
 const usuario = JSON.parse(localStorage.getItem('usuario'));
 const nombreSpan = document.getElementById('nombre-usuario');
 
-if (usuario && usuario.NOMBRE) {
+if (usuario && usuario.nombre) {
  
-  const primerNombre = usuario.NOMBRE.split(' ')[0];
+  const primerNombre = usuario.nombre.split(' ')[0];
   nombreSpan.textContent = primerNombre;
 } else {
   nombreSpan.textContent = 'Iniciar Sesión';
